@@ -222,7 +222,7 @@ class PlacementView(WidgetWrap):
         self.columns = Columns([self.services_column,
                                 self.machines_column], dividechars=2)
 
-        self.deploy_button = MenuSelectButton("\nDeploy\n",
+        self.deploy_button = MenuSelectButton("\nCommit\n",
                                               on_press=self.do_deploy)
         self.deploy_button_label = Text("Some charms use default")
         self.placement_edit_body = Filler(Padding(self.columns,
@@ -249,7 +249,7 @@ class PlacementView(WidgetWrap):
         if self.prev_state != self.state:
             h_opts = self.header_columns.options()
             c_opts = self.columns.options()
-            
+
             if self.state == UIState.PLACEMENT_EDITOR:
                 self.header_columns.contents[-1] = (self.machines_header,
                                                     h_opts)
