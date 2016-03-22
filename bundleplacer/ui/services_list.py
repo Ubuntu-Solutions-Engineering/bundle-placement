@@ -17,8 +17,6 @@ import logging
 
 from urwid import Divider, Pile, Text, WidgetWrap
 
-from bundleplacer.maas import satisfies
-from bundleplacer.state import ServiceState
 from bundleplacer.ui.simple_service_widget import SimpleServiceWidget
 
 log = logging.getLogger('bundleplacer.ui')
