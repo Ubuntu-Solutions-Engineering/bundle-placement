@@ -13,7 +13,6 @@ uninstall-dependencies:
 	sudo apt-get remove bundle-placer-build-deps
 
 clean:
-	@-debian/rules clean
 	@rm -rf .coverage
 	@rm -rf .tox
 

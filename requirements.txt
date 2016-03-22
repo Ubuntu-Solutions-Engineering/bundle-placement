@@ -1,5 +1,7 @@
 PyYAML==3.10
 setuptools
+bson
+requests_oauthlib
 urwid
 nose
 nose-cov
