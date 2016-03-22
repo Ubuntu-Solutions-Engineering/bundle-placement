@@ -54,7 +54,7 @@ pep8:
 	pep8 bundleplacer
 
 NOSE_ARGS = -v --with-cover --cover-package=bundleplacer --cover-html test --cover-inclusive bundleplacer
-test: tox
+test: tox pep8 pyflakes
 
 travis-test:
 	nosetests $(NOSE_ARGS)
