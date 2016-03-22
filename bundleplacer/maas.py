@@ -397,8 +397,6 @@ class MaasState:
         """
         nodes = [n for n in self.nodes(constraints)
                  if n['hostname'] != 'juju-bootstrap.maas']
-        print("nodes is ")
-        print(nodes)
         all_machines = [MaasMachine(-1, m) for m in nodes]
         if state:
             return [m for m in all_machines if m.status == state]
