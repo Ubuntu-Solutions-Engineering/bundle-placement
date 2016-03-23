@@ -92,7 +92,7 @@ class CharmStoreSearchWidget(WidgetWrap):
 
         def update_immediately(future):
             self.update()
-            self.charmstore_column.searching = False
+            self.charmstore_column.loading = False
             self.charmstore_column.update()
 
         self._search_future.add_done_callback(update_immediately)
@@ -182,8 +182,7 @@ class CharmstoreColumn(WidgetWrap):
         self._related_charms = []
         self._bundle_results = []
         self._charm_results = []
-        self.searching = False
-        self.refresh_related()
+        self.loading = True
         self.update()
 
     def build_widgets(self):
@@ -191,9 +190,6 @@ class CharmstoreColumn(WidgetWrap):
         self.pile = Pile([Divider(),
                           self.title])
         return self.pile
-
-    def refresh_related(self):
-        pass
 
     def clear_search_results(self):
         self._bundle_results = []
@@ -206,7 +202,7 @@ class CharmstoreColumn(WidgetWrap):
         else:
             self.state = CharmstoreColumnUIState.SEARCH_RESULTS
         self.current_search_string = s
-        self.searching = True
+        self.loading = True
         self.update()
 
     def update(self):
@@ -222,10 +218,13 @@ class CharmstoreColumn(WidgetWrap):
 
         if self.state == CharmstoreColumnUIState.RELATED:
             # self.title.set_text("Charms Related to this Bundle")
-            self.title.set_text("Popular Charms:")
+            if self.loading:
+                self.title.set_text("Loading Popular Charms…")
+            else:
+                self.title.set_text("Popular Charms:")
 
         else:
-            if self.searching:
+            if self.loading:
                 msg = "Searching for '{}'…\n".format(
                     self.current_search_string)
                 self.title.set_text(msg)
