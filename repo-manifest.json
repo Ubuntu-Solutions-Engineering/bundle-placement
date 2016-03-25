@@ -7,7 +7,7 @@
         },
         {
             "url": "https://github.com/Ubuntu-Solutions-Engineering/maasclient.git",
-            "version": "357db23",
+            "version": "master",
             "directories": "maasclient"
         }
     ]
