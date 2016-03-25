@@ -115,7 +115,8 @@ class PlacementController:
         self.maas_state = maas_state
         self.maasinfo = defaultdict(lambda: '?')
         if self.maas_state:
-            self.maasinfo['server_name'] = self.maas_state.get_server_config('maas_name')
+            sn = self.maas_state.get_server_config('maas_name')
+            self.maasinfo['server_name'] = sn
             self.maasinfo['server_hostname'] = self.maas_state.server_hostname
         self._machines = []
         self.sub_placeholder = PlaceholderMachine('_subordinates',
