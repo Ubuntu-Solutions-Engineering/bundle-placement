@@ -130,6 +130,9 @@ class PlacementController:
         mf = config.getopt('metadata_filename')
         self.bundle = Bundle(filename=config.getopt('bundle_filename'),
                              metadatafilename=mf)
+        if self.config.getopt('provider_type') == "lxd":
+            self.bundle.clear_machines_and_placement()
+
         self.update_from_bundle()
         self.reset_assigned_deployed()
 
@@ -308,6 +311,9 @@ class PlacementController:
 
     def merge_bundle(self, bundle_dict):
         new_bundle = Bundle(bundle_data=bundle_dict)
+        if self.config.getopt('provider_type') == "lxd":
+            new_bundle.clear_machines_and_placement()
+
         t = self.bundle.update(new_bundle)
         new_machines, new_services, new_assignments = t
         self.add_bundle_machines(new_machines)
