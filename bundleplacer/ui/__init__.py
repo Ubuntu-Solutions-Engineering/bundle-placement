@@ -23,6 +23,7 @@ from urwid import (AttrMap, Columns, Divider, Filler, Overlay,
 from ubuntui.widgets.buttons import PlainButton, MenuSelectButton
 from ubuntui.views import InfoDialogWidget
 from ubuntui.widgets import MetaScroll
+from ubuntui.widgets.hr import HR
 
 from bundleplacer.charmstore_api import MetadataController
 from bundleplacer.ui.charmstore import CharmstoreColumn, CharmStoreSearchWidget
@@ -262,7 +263,7 @@ class PlacementView(WidgetWrap):
                     'frame_footer',
                     'frame_footer')
 
-        self.frame = Frame(header=self.header_columns,
+        self.frame = Frame(header=Pile([self.header_columns, HR()]),
                            body=self.placement_edit_body,
                            footer=f)
         return self.frame
