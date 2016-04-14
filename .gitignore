@@ -15,5 +15,3 @@ debian/bundle-placer/*
 debian/files
 build
 dist
-maasclient
-ubuntui
