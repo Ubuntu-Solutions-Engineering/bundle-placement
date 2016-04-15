@@ -8,7 +8,7 @@ This is part of a larger project, but it can also be run standalone.
 To give this a try without building a package and installing, use the setup.py script:
 
 ```
-python setup.py develop --install-dir=`pwd`
+python3 setup.py develop --install-dir=`pwd`
 ```
 
 using `pwd` puts the binary in the current dir, but making that anywhere on your `$PYTHONPATH` is fine.
@@ -16,8 +16,10 @@ using `pwd` puts the binary in the current dir, but making that anywhere on your
 then to give it a try with a sample bundle and faked MAAS machines:
 
 ```
-python3 ./bundle-placer share/data-analytics-with-sql-like.yaml --metadata share/data-analytics-with-sql-like-metadata.yaml
+BUNDLE_EDITOR_TESTING=1 ./bundle-editor share/data-analytics-with-sql-like.yaml --metadata share/data-analytics-with-sql-like-metadata.yaml --fake-maas
 ```
+
+The env var `BUNDLE_EDITOR_TESTING` enables testing flags like --fake-maas.
 
 
 # copyright

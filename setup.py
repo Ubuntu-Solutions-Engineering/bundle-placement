@@ -31,7 +31,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     entry_points={
         "console_scripts": [
-            "bundle-placer = bundleplacer.__main__:main"
+            "bundle-editor = bundleplacer.cli:main"
         ]
     }
 )
