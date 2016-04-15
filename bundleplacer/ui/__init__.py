@@ -301,6 +301,8 @@ class PlacementView(WidgetWrap):
             self.machines_column.update()
         elif self.state == UIState.RELATION_EDITOR:
             self.relations_column.update()
+        else:
+            self.charmstore_column.update()
 
         unplaced = self.placement_controller.unassigned_undeployed_services()
         all = self.placement_controller.services()
