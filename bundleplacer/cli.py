@@ -16,6 +16,7 @@
 import argparse
 import logging
 import os
+import shutil
 import sys
 import urwid
 
@@ -43,7 +44,7 @@ def parse_options(argv, test_args):
     parser = argparse.ArgumentParser(description='Juju Bundle Editor',
                                      argument_default=argparse.SUPPRESS)
     parser.add_argument("bundle_filename", metavar='bundle',
-                        help="Bundle file to edit")
+                        help="Bundle file to edit (or create)")
     if test_args:
         parser.add_argument("--metadata", dest="metadata_filename",
                             metavar='metadatafile',
@@ -97,8 +98,9 @@ def main():
         if opts.out_filename:
             outfn = opts.out_filename
         else:
-            path, ext = os.path.splitext(opts.bundle_filename)
-            outfn = "{}-out{}".format(path, ext)
+            outfn = opts.bundle_filename
+            if os.path.exists(outfn):
+                shutil.copy2(outfn, outfn+'~')
         bw.write_bundle(outfn)
         async.shutdown()
         raise urwid.ExitMainLoop()
