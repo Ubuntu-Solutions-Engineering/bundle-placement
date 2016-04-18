@@ -224,7 +224,9 @@ class Bundle:
             if k in ['services', 'machines', 'relations']:
                 continue
             if self._bundle[k] != other_bundle._bundle[k]:
-                m = "Can't merge top level key {}".format(k)
+                m = ("Can't merge top level key '{}': "
+                     "{} vs {}".format(k, self._bundle[k],
+                                       other_bundle._bundle[k]))
                 raise BundleMergeException(m)
 
         service_renames = keydict()

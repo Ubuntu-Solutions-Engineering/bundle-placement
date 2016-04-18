@@ -254,9 +254,12 @@ class CharmstoreColumn(WidgetWrap):
 
             self.loading = False
 
+        series = self.placement_controller.bundle.series
         bundle_widgets = [(BundleWidget(d, self.do_add_bundle),
                            opts) for d in self._bundle_results
-                          if 'bundle-metadata' in d.get('Meta', {})]
+                          if 'bundle-metadata' in d.get('Meta', {}) and
+                          d['Meta']['bundle-metadata']['Series'] == series]
+
         if len(bundle_widgets) > 0:
             top_w = bundle_widgets[0][0]
             top_w.set_header("Bundles")
