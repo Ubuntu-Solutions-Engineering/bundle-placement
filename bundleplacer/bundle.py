@@ -18,12 +18,10 @@ import os
 import yaml
 
 from bundleplacer.assignmenttype import AssignmentType, label_to_atype
+from bundleplacer.consts import DEFAULT_SERIES
 from bundleplacer.service import Service
 
 log = logging.getLogger('bundleplacer')
-
-
-DEFAULT_SERIES = 'trusty'
 
 
 class keydict(dict):
