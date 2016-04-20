@@ -75,7 +75,10 @@ class OptionWidget(WidgetWrap):
     def handle_value_changed(self, sender, value):
         self.current_value = value
         if self.optype == OptionType.INT:
-            self.value_changed_callback(self.name, int(self.current_value))
+            v = value
+            if value not in ['', '-']:
+                v = int(value)
+            self.value_changed_callback(self.name, v)
         else:
             self.value_changed_callback(self.name, self.current_value)
 
