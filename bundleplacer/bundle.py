@@ -234,9 +234,12 @@ class Bundle:
 
         service_renames = keydict()
         for sname, sd in other_bundle._bundle['services'].items():
-            if sname in self._bundle['services']:
-                newname = sname + "-1"
-                service_renames[sname] = newname
+            newname = sname
+            idx = 1
+            while newname in self._bundle['services']:
+                newname = sname + "-{}".format(idx)
+                idx += 1
+            service_renames[sname] = newname
 
         # generate machine renames and merge machines
         machine_renames = keydict()
