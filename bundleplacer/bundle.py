@@ -165,6 +165,11 @@ class Bundle:
                 return x
         return None
 
+    def set_option(self, service_name, opname, value):
+        sd = self._bundle['services'][service_name]
+        opts = sd.setdefault('options', {})
+        opts[opname] = value
+
     @property
     def services(self):
         services = []
@@ -253,7 +258,7 @@ class Bundle:
             else:
                 return rd[parts[0]]
 
-        for (or1, or2) in other_bundle._bundle['relations']:
+        for (or1, or2) in other_bundle._bundle.get('relations', []):
             nr1 = rename_relation(or1, service_renames)
             nr2 = rename_relation(or2, service_renames)
             if [nr1, nr2] in self._bundle['relations'] or\
