@@ -32,6 +32,8 @@ from bundleplacer.ui.services_column import ServicesColumn
 from bundleplacer.ui.machines_column import MachinesColumn
 from bundleplacer.ui.relations_column import RelationsColumn
 from bundleplacer.ui.options_column import OptionsColumn
+from bundleplacer.grapher import graph_for_bundle
+
 
 log = logging.getLogger('bundleplacer')
 
@@ -68,6 +70,7 @@ class PlacementView(WidgetWrap):
         self.state = initial_state
         self.has_maas = has_maas
         self.prev_state = None
+        self.showing_overlay = False
         self.metadata_controller = MetadataController(placement_controller,
                                                       config)
         w = self.build_widgets()
@@ -140,6 +143,13 @@ class PlacementView(WidgetWrap):
         if key in ['tab', 'shift tab']:
             self.handle_tab('shift' in key)
             return key
+        elif key in ['g', 'G']:
+            if self.showing_overlay:
+                return
+            bundle = self.placement_controller.bundle
+            w = InfoDialogWidget(graph_for_bundle(bundle),
+                                 self.remove_overlay)
+            self.show_overlay(w)
         else:
             return self._w.keypress(size, key)
 
@@ -441,7 +451,8 @@ class PlacementView(WidgetWrap):
         self.do_deploy_cb()
 
     def show_overlay(self, overlay_widget):
-        self.orig_w = self._w
+        if not self.showing_overlay:
+            self.orig_w = self._w
         self._w = Overlay(top_w=overlay_widget,
                           bottom_w=self._w,
                           align='center',
@@ -449,8 +460,10 @@ class PlacementView(WidgetWrap):
                           min_width=80,
                           valign='middle',
                           height='pack')
+        self.showing_overlay = True
 
     def remove_overlay(self, overlay_widget):
         # urwid note: we could also get orig_w as
         # self._w.contents[0][0], but this is clearer:
         self._w = self.orig_w
+        self.showing_overlay = False
