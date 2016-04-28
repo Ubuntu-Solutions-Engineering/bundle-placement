@@ -362,6 +362,9 @@ class PlacementController:
     def remove_service(self, service_name):
         self.bundle.remove_service(service_name)
 
+    def scale_service(self, service_name, amount):
+        self.bundle.scale_service(service_name, amount)
+
     def toggle_relation(self, s1_name, s1_rel, s2_name, s2_rel):
         if self.bundle.is_related(s1_name, s1_rel, s2_name, s2_rel):
             self.bundle.remove_relation(s1_name, s1_rel, s2_name, s2_rel)
