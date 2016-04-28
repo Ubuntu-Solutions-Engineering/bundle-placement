@@ -71,6 +71,7 @@ class PlacementView(WidgetWrap):
         self.has_maas = has_maas
         self.prev_state = None
         self.showing_overlay = False
+        self.showing_graph_split = False
         self.metadata_controller = MetadataController(placement_controller,
                                                       config)
         w = self.build_widgets()
@@ -143,13 +144,21 @@ class PlacementView(WidgetWrap):
         if key in ['tab', 'shift tab']:
             self.handle_tab('shift' in key)
             return key
-        elif key in ['g', 'G']:
+        elif key in ['g']:
             if self.showing_overlay:
                 return
-            bundle = self.placement_controller.bundle
-            w = InfoDialogWidget(graph_for_bundle(bundle),
+            w = InfoDialogWidget(self.bundle_graph_text.text,
                                  self.remove_overlay)
+            self.update()
             self.show_overlay(w)
+        elif key in ['G']:
+            self.showing_graph_split = not self.showing_graph_split
+            if self.showing_graph_split:
+                opts = self.placement_edit_body_pile.options()
+                self.placement_edit_body_pile.contents.insert(
+                    0, (self.bundle_graph_widget, opts))
+            else:
+                self.placement_edit_body_pile.contents.pop(0)
         else:
             return self._w.keypress(size, key)
 
@@ -278,10 +287,15 @@ class PlacementView(WidgetWrap):
         self.deploy_button = MenuSelectButton("\nCommit\n",
                                               on_press=self.do_deploy)
         self.deploy_button_label = Text("Some charms use default")
-        self.placement_edit_body = Filler(Padding(self.columns,
-                                                  align='center',
-                                                  width=('relative', 95)),
+        self.placement_edit_body_pile = Pile([self.columns])
+        self.placement_edit_body = Filler(Padding(
+            self.placement_edit_body_pile,
+            align='center',
+            width=('relative', 95)),
                                           valign='top')
+        self.bundle_graph_text = Text("No graph to display yet.")
+        self.bundle_graph_widget = Padding(self.bundle_graph_text,
+                                           'center', 'pack')
         b = AttrMap(self.deploy_button,
                     'frame_header',
                     'button_primary focus')
@@ -346,6 +360,13 @@ class PlacementView(WidgetWrap):
         else:
             dmsg = ""
         self.deploy_button_label.set_text(dmsg)
+
+        if self.showing_graph_split:
+            bundle = self.placement_controller.bundle
+            gtext = graph_for_bundle(bundle, self.metadata_controller)
+            if gtext == "":
+                gtext = "No graph to display yet."
+            self.bundle_graph_text.set_text(gtext)
 
     def browse_maas(self, sender):
 
