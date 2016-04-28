@@ -15,6 +15,7 @@
 
 from enum import Enum
 import logging
+from operator import attrgetter
 from subprocess import Popen, PIPE, TimeoutExpired
 
 from urwid import (AttrMap, Columns, Divider, Filler, Overlay,
@@ -404,13 +405,16 @@ class PlacementView(WidgetWrap):
 
     def do_add_bundle(self, bundle_dict):
         assert(self.state == UIState.CHARMSTORE_VIEW)
-        new_bundle = self.placement_controller.merge_bundle(bundle_dict)
+        _, new_services, _ = self.placement_controller.merge_bundle(
+            bundle_dict)
         self.frame.focus_position = 'body'
         self.columns.focus_position = 0
-        charms = list(set([s.charm_source for s in new_bundle.services]))
+        charms = list(set([s.charm_source for s in new_services]))
         self.metadata_controller.load(charms)
         self.update()
-        first_service = new_bundle.services[0].service_name
+        ss = sorted(new_services,
+                    key=attrgetter('service_name'))
+        first_service = ss[0].service_name
         self.services_column.select_service(first_service)
 
     def do_clear_machine(self, sender, machine):
