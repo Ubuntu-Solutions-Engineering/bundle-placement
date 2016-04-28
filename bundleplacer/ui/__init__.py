@@ -145,14 +145,18 @@ class PlacementView(WidgetWrap):
         if key in ['tab', 'shift tab']:
             self.handle_tab('shift' in key)
             return key
-        elif key in ['g']:
+
+        unhandled_key = self._w.keypress(size, key)
+        if unhandled_key is None:
+            return None
+        elif unhandled_key in ['g']:
             if self.showing_overlay:
                 return
             w = InfoDialogWidget(self.bundle_graph_text.text,
                                  self.remove_overlay)
             self.update()
             self.show_overlay(w)
-        elif key in ['G']:
+        elif unhandled_key in ['G']:
             self.showing_graph_split = not self.showing_graph_split
             if self.showing_graph_split:
                 opts = self.placement_edit_body_pile.options()
@@ -161,7 +165,7 @@ class PlacementView(WidgetWrap):
             else:
                 self.placement_edit_body_pile.contents.pop(0)
         else:
-            return self._w.keypress(size, key)
+            return unhandled_key
 
     def get_services_header(self):
         b = PlainButton("Clear All Placements",
