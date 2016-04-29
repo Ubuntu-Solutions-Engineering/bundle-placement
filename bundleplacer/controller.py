@@ -302,11 +302,13 @@ class PlacementController:
                     ms.append(m)
         return ms
 
-    def add_new_service(self, charm_name, charm_dict, service_name=None):
+    def add_new_service(self, charm_name, charm_dict,
+                        service_name=None, is_subordinate=False):
         """adds a service with the default name of 'charm_name' or
         'charm_name-1', etc"""
         return self.bundle.add_new_service(charm_name, charm_dict,
-                                           service_name)
+                                           service_name,
+                                           is_subordinate=is_subordinate)
 
     def set_option(self, service_name, opname, value):
         self.bundle.set_option(service_name, opname, value)
