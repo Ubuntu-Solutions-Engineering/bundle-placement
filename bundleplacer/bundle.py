@@ -118,7 +118,8 @@ class Bundle:
         if 'services' not in self._bundle.keys():
             raise Exception("Invalid Bundle.")
 
-    def add_new_service(self, charm_name, charm_dict, service_name=None):
+    def add_new_service(self, charm_name, charm_dict, service_name=None,
+                        is_subordinate=False):
         if service_name is None:
             i = 1
             service_name = charm_name
@@ -127,7 +128,7 @@ class Bundle:
                 i += 1
 
         new_dict = {'charm': charm_dict['Id'],
-                    'num_units': 1}
+                    'num_units': 0 if is_subordinate else 1}
         self._bundle['services'][service_name] = new_dict
         return service_name
 
