@@ -163,9 +163,11 @@ class SimpleServiceWidget(WidgetWrap):
         if key == 'backspace':
             self.display_controller.remove_service(self.service)
         elif key == '+':
-            self.display_controller.scale_service(self.service, 1)
+            if not self.service.subordinate:
+                self.display_controller.scale_service(self.service, 1)
         elif key == '-':
-            self.display_controller.scale_service(self.service, -1)
+            if not self.service.subordinate:
+                self.display_controller.scale_service(self.service, -1)
 
         return super().keypress(size, key)
 
