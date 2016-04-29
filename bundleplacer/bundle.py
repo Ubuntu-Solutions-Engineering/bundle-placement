@@ -141,6 +141,12 @@ class Bundle:
             if s1 == service_name or s2 == service_name:
                 self._bundle['relations'].remove([r1, r2])
 
+    def scale_service(self, service_name, amount):
+        sd = self._bundle['services'][service_name]
+        new = sd.get('num_units', 0) + amount
+        if new > 0:
+            sd['num_units'] = new
+
     def add_relation(self, s1_name, s1_rel, s2_name, s2_rel):
         r = ["{}:{}".format(s1_name, s1_rel),
              "{}:{}".format(s2_name, s2_rel)]
