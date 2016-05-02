@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from functools import lru_cache
 from subprocess import run, PIPE
 
 from bundleplacer.charmstore_api import CharmStoreID
@@ -7,8 +8,13 @@ from bundleplacer.charmstore_api import CharmStoreID
 
 def graph_for_bundle(bundle, mc):
     s = _graph_string_for_bundle(bundle, mc)
-    p = run("graph-easy --as boxart", input=s, shell=True, stdout=PIPE,
-            stderr=PIPE, universal_newlines=True)
+    out = run_graph_easy(s)
+    return out
+
+@lru_cache(maxsize=2)
+def run_graph_easy(graph_string):
+    p = run("graph-easy --as boxart", input=graph_string, shell=True,
+            stdout=PIPE, stderr=PIPE, universal_newlines=True)
 
     return p.stdout
 
@@ -96,7 +102,7 @@ def _graph_string_for_bundle(bundle, mc):
             line = "[{}] - {} -> [{}]".format(dst_with_units, relname,
                                               src_with_units)
         else:
-            line = ("[{}] <- {} \N{LEFT RIGHT ARROW} {} ->"
+            line = ("[{}] <- {} \N{LEFT RIGHT ARROW} {} -> "
                     "[{}]").format(dst_with_units, s_relname,
                                    d_relname, src_with_units)
         s.append(line)
