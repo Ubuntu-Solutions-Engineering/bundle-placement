@@ -157,7 +157,12 @@ class OptionsColumn(WidgetWrap):
             self.service.service_name)))
 
         if len(self.option_widgets) == 0:
-            self.title.set_text(('body', "Loading Options..."))
+            if self.filter_string != "":
+                self.title.set_text(
+                    ('body',
+                     "No options match '{}'".format(self.filter_string)))
+            else:
+                self.title.set_text(('body', "Loading Options..."))
         else:
             self.title.set_text(('body', "Edit Options: (Changes are "
                                  "saved immediately)"))
