@@ -29,6 +29,17 @@ class OptionType(Enum):
     INT = 2
 
 
+def strip_solo_dots(s):
+    ls = s.split("\n")
+    rl = []
+    for l in ls:
+        if l == ".":
+            rl.append("")
+        else:
+            rl.append(l)
+    return "\n".join(rl)
+
+
 class OptionWidget(WidgetWrap):
 
     def __init__(self, name, optype, description, default,
@@ -49,7 +60,8 @@ class OptionWidget(WidgetWrap):
     def build_widgets(self):
         title_text = Text([("body", self.name)],
                           align="center")
-        desc_text = Text(["\n", self.description])
+
+        desc_text = Text(["\n", strip_solo_dots(self.description)])
 
         self.reset_button = PlainButton("Reset to Default", self.do_reset)
         if self.optype == OptionType.BOOLEAN:
