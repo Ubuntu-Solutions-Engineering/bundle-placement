@@ -47,9 +47,9 @@ class OptionWidget(WidgetWrap):
         return True
 
     def build_widgets(self):
-        desc_text = Text([("info_minor", self.name),
-                          "\n",
-                          self.description])
+        title_text = Text([("body", self.name)],
+                          align="center")
+        desc_text = Text(["\n", self.description])
 
         self.reset_button = PlainButton("Reset to Default", self.do_reset)
         if self.optype == OptionType.BOOLEAN:
@@ -76,7 +76,7 @@ class OptionWidget(WidgetWrap):
         button_grid = GridFlow([self.reset_button],
                                36, 1, 0, 'right')
 
-        return Pile([Divider(), desc_text, self.control,
+        return Pile([Divider(), title_text, desc_text, self.control,
                      button_grid])
 
     def handle_value_changed(self, sender, value):
