@@ -358,9 +358,11 @@ class PlacementView(WidgetWrap):
 
         unplaced = self.placement_controller.unassigned_undeployed_services()
         all = self.placement_controller.services()
-        n_subs = len([c for c in all if c.subordinate])
-        n_total = len(all) - n_subs
-        remaining = len(unplaced) - n_subs
+        n_subs_in_unplaced = len([c for c in unplaced if c.subordinate])
+        n_subs_in_all = len([c for c in all if c.subordinate])
+
+        n_total = len(all) - n_subs_in_all
+        remaining = len(unplaced) - n_subs_in_unplaced
         if remaining > 0:
             dmsg = "\nAuto-assigning {}/{} services".format(remaining,
                                                             n_total)
