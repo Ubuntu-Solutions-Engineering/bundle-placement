@@ -92,8 +92,8 @@ class OptionWidget(WidgetWrap):
     def do_reset(self, sender):
         self.current_value = str(self.default)
         if self.optype == OptionType.BOOLEAN:
-            self.control.state = bool(self.current_value)
-
+            newstate = True if self.current_value == "True" else False
+            self.control.state = newstate
         elif self.optype == OptionType.INT:
             edit_text = self.current_value or ""
             self.control.set_edit_text(edit_text)
