@@ -251,7 +251,9 @@ class PlacementView(WidgetWrap):
         simple_widgets = self._simple_header_widgets("Options Editor")
         fb = FilterBox(options_column.handle_filter_change,
                        info_text="Filter by option name")
-        return Pile(simple_widgets + [fb])
+        padded_fb = Padding(AttrMap(fb, 'filter', 'filter_focus'),
+                            left=2, right=2)
+        return Pile(simple_widgets + [padded_fb])
 
     def build_widgets(self):
 

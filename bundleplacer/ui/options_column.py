@@ -17,6 +17,7 @@ from enum import Enum
 from urwid import (CheckBox, connect_signal, Divider, Edit, GridFlow,
                    IntEdit, Pile, Text, WidgetWrap)
 from ubuntui.widgets.buttons import PlainButton
+from ubuntui.widgets.input import StringEditor
 import logging
 
 log = logging.getLogger('bundleplacer')
@@ -39,8 +40,6 @@ class OptionWidget(WidgetWrap):
         self.current_value = current_value or default
         w = self.build_widgets()
         self.value_changed_callback = value_changed_callback
-        connect_signal(self.control, 'change',
-                       self.handle_value_changed)
         super().__init__(w)
         self.update()
 
@@ -61,10 +60,18 @@ class OptionWidget(WidgetWrap):
                                    default=self.current_value)
         elif self.optype == OptionType.STRING:
             edit_text = self.current_value or ""
-            self.control = Edit(caption="{}: ".format(self.name),
-                                edit_text=edit_text)
+            self.control = StringEditor(
+                caption="{}: ".format(self.name),
+                edit_text=edit_text)
         else:
             raise Exception("Unknown option type")
+
+        if self.optype == OptionType.STRING:
+            connect_signal(self.control._edit, 'change',
+                           self.handle_value_changed)
+        else:
+            connect_signal(self.control, 'change',
+                           self.handle_value_changed)
 
         button_grid = GridFlow([self.reset_button],
                                36, 1, 0, 'right')
@@ -87,10 +94,12 @@ class OptionWidget(WidgetWrap):
         if self.optype == OptionType.BOOLEAN:
             self.control.state = bool(self.current_value)
 
-        elif (self.optype == OptionType.INT or
-              self.optype == OptionType.STRING):
+        elif self.optype == OptionType.INT:
             edit_text = self.current_value or ""
             self.control.set_edit_text(edit_text)
+        elif self.optype == OptionType.STRING:
+            edit_text = self.current_value or ""
+            self.control.value = edit_text
 
     def update(self):
         pass
