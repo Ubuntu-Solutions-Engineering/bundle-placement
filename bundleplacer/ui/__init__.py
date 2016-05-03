@@ -33,7 +33,7 @@ from bundleplacer.ui.services_column import ServicesColumn
 from bundleplacer.ui.machines_column import MachinesColumn
 from bundleplacer.ui.relations_column import RelationsColumn
 from bundleplacer.ui.options_column import OptionsColumn
-from bundleplacer.grapher import graph_for_bundle
+from bundleplacer.grapher import graph_for_bundle, scc_graph_for_bundle
 from bundleplacer.charmstore_api import CharmStoreID
 
 log = logging.getLogger('bundleplacer')
@@ -73,6 +73,7 @@ class PlacementView(WidgetWrap):
         self.prev_state = None
         self.showing_overlay = False
         self.showing_graph_split = False
+        self.show_scc_graph = False
         self.metadata_controller = MetadataController(placement_controller,
                                                       config)
         w = self.build_widgets()
@@ -149,14 +150,11 @@ class PlacementView(WidgetWrap):
         unhandled_key = self._w.keypress(size, key)
         if unhandled_key is None:
             return None
-        elif unhandled_key in ['g']:
-            if self.showing_overlay:
-                return
-            w = InfoDialogWidget(self.bundle_graph_text.text,
-                                 self.remove_overlay)
-            self.update()
-            self.show_overlay(w)
-        elif unhandled_key in ['G']:
+        elif unhandled_key in ['g', 'G']:
+            if unhandled_key == 'G':
+                self.show_scc_graph = True
+            else:
+                self.show_scc_graph = False
             self.showing_graph_split = not self.showing_graph_split
             if self.showing_graph_split:
                 opts = self.placement_edit_body_pile.options()
@@ -164,6 +162,7 @@ class PlacementView(WidgetWrap):
                     0, (self.bundle_graph_widget, opts))
             else:
                 self.placement_edit_body_pile.contents.pop(0)
+            self.update()
         else:
             return unhandled_key
 
@@ -372,7 +371,10 @@ class PlacementView(WidgetWrap):
 
         if self.showing_graph_split:
             bundle = self.placement_controller.bundle
-            gtext = graph_for_bundle(bundle, self.metadata_controller)
+            if self.show_scc_graph:
+                gtext = scc_graph_for_bundle(bundle, self.metadata_controller)
+            else:
+                gtext = graph_for_bundle(bundle, self.metadata_controller)
             if gtext == "":
                 gtext = "No graph to display yet."
             self.bundle_graph_text.set_text(gtext)
