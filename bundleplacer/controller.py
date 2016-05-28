@@ -390,13 +390,7 @@ class PlacementController:
                 if s.charm_source not in seen and not seen.add(s.charm_source)]
 
     def services_with_charm_id(self, charm_id):
-        l = []
-        csid = CharmStoreID(charm_id)
-        id_no_rev = csid.as_str_without_rev()
-        for service in self.bundle.services:
-            if service.csid.as_str_without_rev() == id_no_rev:
-                l.append(service)
-        return l
+        return self.bundle.services_with_charm_id(charm_id)
 
     @property
     def assigned_services(self):
