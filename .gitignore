@@ -15,3 +15,4 @@ debian/bundle-placer/*
 debian/files
 build
 dist
+bundle-placement-dev

@@ -52,6 +52,10 @@ pyflakes:
 pep8:
 	pep8 bundleplacer
 
+dev: clean
+	tox -e bundle-placement-dev
+	@echo "Run 'source bundle-placement-dev/bin/activate' to enter the dev venv"
+
 NOSE_ARGS = -v --with-cover --cover-package=bundleplacer --cover-html test --cover-inclusive bundleplacer
 test: tox pep8 pyflakes
 
