@@ -199,6 +199,12 @@ class Bundle:
                                            sm, relations))
         return services
 
+    @property
+    def charm_ids(self):
+        seen = set()
+        return [s.charm_source for s in self.services
+                if s.charm_source not in seen and not seen.add(s.charm_source)]
+
     def services_with_charm_id(self, charm_id):
         l = []
         csid = CharmStoreID(charm_id)
