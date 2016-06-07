@@ -70,13 +70,13 @@ class Service:
         }
 
     def as_deployargs(self):
-        optsyaml = yaml.dump(self.options, default_flow_style=False)
-
         rd = {"CharmUrl": self.charm_source,
               "ServiceName": self.service_name,
               "NumUnits": self.num_units,
-              "Constraints": self.constraints,
-              "ConfigYAML": optsyaml}
+              "Constraints": self.constraints}
+        if len(self.options) > 0:
+            optsyaml = yaml.dump(self.options, default_flow_style=False)
+            rd["ConfigYAML"] = optsyaml
         if self.placement_spec:
             specs = [self._prepare_placement(self.placement_spec)]
             rd["Placement"] = yaml.dump(specs, default_flow_style=False)
