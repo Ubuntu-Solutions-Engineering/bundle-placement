@@ -120,6 +120,7 @@ class MaasMachineStatusTestCase(unittest.TestCase):
 
         self.assertEqual(MaasMachineStatus(6), MaasMachineStatus.ALLOCATED)
 
+
 @patch.object(MaasState, 'nodes', new=MaasState.nodes_uncached)
 class MaasStateTestCase(unittest.TestCase):
     def setUp(self):

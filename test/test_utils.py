@@ -18,19 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import errno
-from jinja2 import Environment, FileSystemLoader
 import logging
 import os
 from subprocess import PIPE
-from tempfile import NamedTemporaryFile
+
 import unittest
-from unittest.mock import patch, PropertyMock
-import yaml
+from unittest.mock import patch
 
-
-from bundleplacer.utils import (render_charm_config,
-                                merge_dicts, slurp, spew, get_command_output)
-from bundleplacer.config import Config
+from bundleplacer.utils import get_command_output
 
 
 log = logging.getLogger('bundleplacer.test_utils')

@@ -57,7 +57,7 @@ dev: clean
 	@echo "Run 'source bundle-placement-dev/bin/activate' to enter the dev venv"
 
 NOSE_ARGS = -v --with-cover --cover-package=bundleplacer --cover-html test --cover-inclusive bundleplacer
-test: tox pep8 pyflakes
+test: tox
 
 travis-test:
 	nosetests $(NOSE_ARGS)

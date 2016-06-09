@@ -18,4 +18,4 @@ for i in ids:
     csid = CharmStoreID(i)
     print(repr(csid))
     print(csid.as_str_without_rev())
-    print(csid.as_str())    
+    print(csid.as_str())

@@ -20,7 +20,6 @@ import unittest
 import yaml
 import os.path as path
 import argparse
-from tempfile import NamedTemporaryFile
 
 from bundleplacer.config import Config
 import bundleplacer.utils as utils
@@ -64,6 +63,7 @@ class TestGoodConfig(unittest.TestCase):
 
     def setUp(self):
         self.conf = Config('test-temp', GOOD_CONFIG, save_backups=False)
+
     def test_save_maas_creds(self):
         """ Save maas credentials """
         self.conf.setopt('maascreds', dict(api_host='127.0.0.1',
@@ -129,4 +129,3 @@ class TestGoodConfig(unittest.TestCase):
         """
         cfg = utils.sanitize_cli_opts(parse_opts([]))
         self.assertEqual(True, 'headless' not in cfg)
-
