@@ -73,7 +73,7 @@ class Service:
         optsyaml = yaml.dump(self.options, default_flow_style=False)
 
         rd = {"CharmUrl": self.charm_source,
-              "ServiceName": self.service_name,
+              "ApplicationName": self.service_name,
               "NumUnits": self.num_units,
               "Constraints": self.constraints,
               "ConfigYAML": optsyaml}
