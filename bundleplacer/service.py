@@ -70,10 +70,10 @@ class Service:
         }
 
     def as_deployargs(self):
-        rd = {"CharmUrl": self.csid.as_str(),
-              "ApplicationName": self.service_name,
-              "NumUnits": self.num_units,
-              "Constraints": self.constraints}
+        rd = {"charm-url": self.csid.as_str(),
+              "application": self.service_name,
+              "num-units": self.num_units,
+              "constraints": self.constraints}
 
         if len(self.options) > 0:
             config_dict = {self.service_name: self.options}
