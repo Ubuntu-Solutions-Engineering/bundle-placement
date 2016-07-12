@@ -82,11 +82,20 @@ class Service:
 
         return new_placements
 
+    def _prepare_constraints(self, constraints):
+        list_constraints = constraints.split(' ')
+        new_constraints = {}
+        if len(list_constraints) > 0:
+            for c in list_constraints:
+                constraint, constraint_value = c.split('=')
+                new_constraints[constraint] = constraint_value
+        return new_constraints
+
     def as_deployargs(self):
         rd = {"charm-url": self.csid.as_str(),
               "application": self.service_name,
               "num-units": self.num_units,
-              "constraints": self.constraints}
+              "constraints": self._prepare_constraints(self.constraints)}
 
         if self.resources:
             rd['resources'] = self.resources
