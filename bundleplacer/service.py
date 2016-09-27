@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+
 import yaml
 
 from bundleplacer.charmstore_api import CharmStoreID
@@ -22,6 +23,7 @@ log = logging.getLogger('bundleplacer')
 
 
 class Service:
+
     def __init__(self, service_name, charm_source, summary_future,
                  constraints, depends, conflicts,
                  allowed_assignment_types, num_units, options,

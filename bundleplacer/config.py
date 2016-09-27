@@ -18,8 +18,8 @@
 import datetime
 import logging
 import os
-import yaml
 
+import yaml
 
 log = logging.getLogger('bundleplacer')
 
@@ -29,6 +29,7 @@ class ConfigException(Exception):
 
 
 class Config:
+
     def __init__(self, name, cfg_obj=None, save_backups=True):
         self.name = name
         if cfg_obj is None:

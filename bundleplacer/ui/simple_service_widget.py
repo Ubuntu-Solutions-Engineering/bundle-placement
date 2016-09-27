@@ -15,13 +15,10 @@
 
 from enum import Enum
 
-
-from urwid import (AttrMap, Divider, Pile, WidgetWrap,
-                   Padding, Text, Columns)
-
-from ubuntui.widgets.buttons import MenuSelectButton, PlainButton
+from urwid import AttrMap, Columns, Divider, Padding, Pile, Text, WidgetWrap
 
 from bundleplacer.assignmenttype import AssignmentType
+from ubuntui.widgets.buttons import MenuSelectButton, PlainButton
 
 
 class ServiceWidgetState(Enum):
@@ -92,12 +89,12 @@ class SimpleServiceWidget(WidgetWrap):
         pd = self.placement_controller.get_assignments(self.service)
         nplaced = sum([len(pd[k]) for k in pd])
 
-        if nr-nplaced > 0:
+        if nr - nplaced > 0:
             pl = ""
-            if nr-nplaced > 1:
+            if nr - nplaced > 1:
                 pl = "s"
             info_str = ("  {} unit{} will be auto-placed "
-                        "by Juju\n".format(nr-nplaced, pl))
+                        "by Juju\n".format(nr - nplaced, pl))
 
             info_markup.append(info_str)
 

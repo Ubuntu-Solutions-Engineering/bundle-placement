@@ -18,24 +18,25 @@ import logging
 import os
 import shutil
 import sys
+
 import urwid
 
 from bundleplacer import async
-from bundleplacer.maas import connect_to_maas
-
 from bundleplacer.config import Config
 from bundleplacer.controller import BundleWriter, PlacementController
-from bundleplacer.log import setup_logger
-from bundleplacer.placerview import PlacerView
 from bundleplacer.fixtures.maas import FakeMaasState
+from bundleplacer.log import setup_logger
+from bundleplacer.maas import connect_to_maas
+from bundleplacer.placerview import PlacerView
+from ubuntui.anchors import Footer, Header
 from ubuntui.ev import EventLoop
 from ubuntui.palette import STYLES
-from ubuntui.anchors import Header, Footer
 
 log = None
 
 
 class PlacerUI(urwid.Frame):
+
     def __init__(self, placerview):
         super().__init__(body=placerview, header=Header(), footer=Footer())
 
@@ -81,8 +82,8 @@ def main():
                      api_key=opts.maas_cred)
         maas, maas_state = connect_to_maas(creds)
     elif 'fake_maas' in opts and opts.fake_maas:
-            maas = None
-            maas_state = FakeMaasState()
+        maas = None
+        maas_state = FakeMaasState()
     else:
         maas = None
         maas_state = None
@@ -104,7 +105,7 @@ def main():
         else:
             outfn = opts.bundle_filename
             if os.path.exists(outfn):
-                shutil.copy2(outfn, outfn+'~')
+                shutil.copy2(outfn, outfn + '~')
         bw.write_bundle(outfn)
         async.shutdown()
         raise urwid.ExitMainLoop()

@@ -18,15 +18,16 @@
 import logging
 
 from urwid import WidgetWrap
-from bundleplacer.ui import PlacementView
-from ubuntui.ev import EventLoop
 
 from bundleplacer.assignmenttype import AssignmentType
+from bundleplacer.ui import PlacementView
+from ubuntui.ev import EventLoop
 
 log = logging.getLogger('bundleplacer')
 
 
 class PlacerView(WidgetWrap):
+
     def __init__(self, placement_controller, config, cb,
                  has_maas=False):
         self.placement_controller = placement_controller
