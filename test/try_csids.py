@@ -10,7 +10,8 @@ ids = ['mysql',
        'cs:~openstack-charmers-next/xenial/lxd',
        'cs:~openstack-charmers-next/xenial/nova-compute-12',
        'cs:~openstack-charmers-next/xenial/nova-compute',
-       'cs:bundle/openstack-base-40']
+       'cs:bundle/openstack-base-40',
+       'cs:~containers/easyrsa-2']
 
 for i in ids:
     print(80*'-')
