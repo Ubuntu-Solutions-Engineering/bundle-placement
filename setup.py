@@ -23,7 +23,7 @@ import setuptools
 
 setuptools.setup(
     name="bundle-placement",
-    version="0.0.1",
+    version="0.0.2",
     author="Mike McCracken",
     author_email="mike.mccracken@ubuntu.com",
     description="Juju bundle placer",

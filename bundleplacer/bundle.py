@@ -37,6 +37,12 @@ class BundleFormatError(Exception):
 
 
 def create_service(servicename, service_dict, servicemeta, relations):
+    """ Create service object
+
+    service_dict: The bundle data
+    servicemeta: Extended attributes on a service to handle things that relate
+    to the UI experience for application placement
+    """
 
     # a little cleaning to normalize a dict from the charmstore v4 api:
     service_dict = {k.lower(): v for k, v in service_dict.items()}
@@ -70,7 +76,7 @@ def create_service(servicename, service_dict, servicemeta, relations):
     service = Service(service_name=servicename,
                       charm_source=service_dict['charm'],
                       summary_future=None,
-                      constraints=servicemeta.get('constraints', {}),
+                      constraints=service_dict.get('constraints', {}),
                       depends=servicemeta.get('depends', []),
                       conflicts=servicemeta.get('conflicts', []),
                       allowed_assignment_types=servicemeta.get(
